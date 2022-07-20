@@ -1,0 +1,27 @@
+% Save csis, timestamps, time_diff
+
+csi_path = 'dataset/csi0720Atake3.dat';
+save_path = 'Logs/0621/ATake1csi.mat';
+time_path = 'Logs/0621/ATake1time.mat';
+time_diff_path = 'Logs/0621/ATake1timediff.mat';
+
+csi_trace = read_bf_file(csi_path);
+
+csis = zeros(3,30,length(csi_trace));
+times = zeros(1,length(csi_trace));
+
+for i=1:length(csi_trace)
+    csis(:,:,i) = get_scaled_csi(csi_trace{i});
+    times(i) = csi_trace{i}.timestamp_low;
+end
+
+time0 = times(1);
+time_diff = times - repelem(time0, length(times));
+
+% save csis
+% save times
+% save time_diff
+
+%save(save_path, 'csis');
+save(time_path, 'times');
+%save(time_diff_path, 'time_diff');
